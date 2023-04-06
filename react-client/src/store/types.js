@@ -1,0 +1,17 @@
+export const VIEW_SHOW_LISTGROUP = 'VIEW_SHOW_LISTGROUP';
+export const VIEW_SHOW_TABLE = 'VIEW_SHOW_TABLE';
+
+export const CALC_CONFIG_MODE_COUNT = 'CALC_CONFIG_MODE_COUNT';
+export const CALC_CONFIG_ITEMS_COUNT = 'CALC_CONFIG_ITEMS_COUNT';
+
+export const CURRENT_GET = 'CURRENT_GET';
+export const CURRENT_SAVE = 'CURRENT_SAVE';
+export const POPULATE_RESULT = 'POPULATE_RESULT';
+
+export const IS_WSS_OPEN = 'IS_WSS_OPEN';
+
+export const MESSAGE = 'MESSAGE';
+
+export const GET_ERROR = 'GET_ERROR';
+
+

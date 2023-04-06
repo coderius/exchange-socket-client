@@ -1,0 +1,15 @@
+{
+    "name": "admin/testservertrade",
+    "autoload": {
+        "psr-4": {
+            "Admin\\Testservertrade\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "CodWorker",
+            "email": "thismyemailnew@gmail.com"
+        }
+    ],
+    "require": {}
+}
