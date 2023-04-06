@@ -23,8 +23,9 @@ Exchange Socket Client
 расчеты, отправляет статистические параметры на php бэк для добавления записи в бд
 
 __Приложение построено с использованием:__ 
-* React.js
+* React.js + Redux
 * php + mysql
 * node.js
 * WebSocket
+* ajax
 * bootstrap 5

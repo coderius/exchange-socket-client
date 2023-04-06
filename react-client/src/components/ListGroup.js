@@ -16,42 +16,42 @@ class ListGroup extends Component {
         return (
 
             <div className="processCalc">
-                <h5>Текущие расчеты</h5>
+                <h5>Results</h5>
                 <ul className="list-group">
                     <li className="list-group-item d-flex justify-content-between align-items-center">
-                        Минимальний:
+                    minExchange:
                         <span className="badge bg-primary rounded-pill">{statisticInfo.minExchange}</span>
                     </li>
                     <li className="list-group-item d-flex justify-content-between align-items-center">
-                        Максимальный:
+                    maxExchange:
                         <span className="badge bg-primary rounded-pill">{statisticInfo.maxExchange}</span>
                     </li>
                     <li className="list-group-item d-flex justify-content-between align-items-center">
-                        Среднее арифметическое:
+                    arithmeticMean:
                         <span className="badge bg-primary rounded-pill">{statisticInfo.arithmeticMean}</span>
                     </li>
                     <li className="list-group-item d-flex justify-content-between align-items-center">
-                        Стандартное отклонение:
+                    standardDeviation:
                         <span className="badge bg-primary rounded-pill">{statisticInfo.standardDeviation}</span>
                     </li>
                     <li className="list-group-item d-flex justify-content-between align-items-center">
-                        Кол-во потерянных котировок:
+                    countLostExchanges:
                         <span className="badge bg-primary rounded-pill">{statisticInfo.countLostExchanges}</span>
                     </li>
                     <li className="list-group-item d-flex justify-content-between align-items-center">
-                        Мода в мультимодальности (для {modeCount} совпадений):
+                    mode (for {modeCount} equals):
                         <div style={{ overflow: "auto", maxWidth: "500px" }} className="badge bg-primary">{statisticInfo.mode}</div>
                     </li>
                     <li className="list-group-item d-flex justify-content-between align-items-center">
-                        Дата запуска расчета:
+                    startDateTime:
                         <span className="badge bg-primary rounded-pill">{statisticInfo.startDateTime}</span>
                     </li>
                     <li className="list-group-item d-flex justify-content-between align-items-center">
-                        Время потраченное на расчеты вообще:
+                    computeAllExecTime:
                         <span className="badge bg-primary rounded-pill">{statisticInfo.computeAllExecTime} сек.</span>
                     </li>
                     <li className="list-group-item d-flex justify-content-between align-items-center">
-                        Время потраченное на расчеты одного значения:
+                    computeExecTime:
                         <span className="badge bg-primary rounded-pill">{statisticInfo.computeExecTime} сек.</span>
                     </li>
                 </ul>

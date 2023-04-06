@@ -4,6 +4,7 @@ import Table from './Table';
 import ListGroup from './ListGroup';
 import Alert from './Alert';
 import { connect } from 'react-redux';
+import { SOCKET_SERVER_ENDPOINT  } from '../config/app';
 import { saveCurrent, saveToMysql, showListGroup, showTable, calcConfigModeCount, calcConfigItemsCount, stateWssOpen, setMessage } from '../store/actions/processActions';
 
 
@@ -40,8 +41,7 @@ class Page extends Component {
 
         const statistic = {};//Formatted to save in state
 
-        const ENDPOINT = "wss://trade.termplat.com:8800/?password=1234";
-        this.ws = new WebSocket(ENDPOINT);
+        this.ws = new WebSocket(SOCKET_SERVER_ENDPOINT);
 
         this.ws.onopen = () => {
             console.log("Connection WebSocket Open!");
@@ -204,7 +204,7 @@ class Page extends Component {
             };
             this.ws.close();
         }else{
-            this.props.setMessage("Сначала нажмите кнопку 'Старт'");
+            this.props.setMessage("Press button 'Start'");
         }
 
 
@@ -231,14 +231,14 @@ class Page extends Component {
             <div className="container">
                 <div className="row">
                     <div className="col-12">
-                        <div className="display-5 App-pagename">Котировки</div>
+                        <div className="display-5 App-pagename">Exchange app</div>
                         <div className="App-actionbar">
                             <div className="input-group input-group-sm mb-3">
-                                <span className="input-group-text" id="inputGroup-sizing-sm">Кол-во котировок</span>
+                                <span className="input-group-text" id="inputGroup-sizing-sm">number of quotes</span>
                                 <input onChange={this.handleChange} value={this.props.reduxState.configItems} type="number" className="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" />
                             </div>
-                            <button onClick={this.hendlerStart} type="button" className="btn btn-primary">Старт</button>
-                            <button onClick={this.getStatistic} type="button" className="btn btn-success ms-2">Статистика</button>
+                            <button onClick={this.hendlerStart} type="button" className="btn btn-primary">Start</button>
+                            <button onClick={this.getStatistic} type="button" className="btn btn-success ms-2">Get statistic</button>
                         </div>
                     </div>
                     <div className="col-12">

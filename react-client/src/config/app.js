@@ -1,0 +1,1 @@
+export const SOCKET_SERVER_ENDPOINT = "wss://trade.termplat.com:8800/?password=1234";
