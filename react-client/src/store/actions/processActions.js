@@ -1,5 +1,6 @@
 import { VIEW_SHOW_TABLE, VIEW_SHOW_LISTGROUP, CURRENT_SAVE, POPULATE_RESULT, CALC_CONFIG_MODE_COUNT, CALC_CONFIG_ITEMS_COUNT, IS_WSS_OPEN, MESSAGE, GET_ERROR } from '../types';
 import axios from 'axios'
+import { STORAGE_SERVER_ENDPOINT } from '../../config/app';
 
 export const saveCurrent = (data) => async dispatch => {
 
@@ -19,8 +20,8 @@ export const saveToMysql = (data) => async dispatch => {
 
     try {
         console.log("to save", data);
-        const baseURL = "http://localhost/testservertrade/";
-        axios.post(baseURL, {
+        
+        axios.post(STORAGE_SERVER_ENDPOINT, {
             toSave: data,
         })
             .then(function (response) {
