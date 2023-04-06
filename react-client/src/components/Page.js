@@ -4,7 +4,8 @@ import Table from './Table';
 import ListGroup from './ListGroup';
 import Alert from './Alert';
 import { connect } from 'react-redux';
-import { SOCKET_SERVER_ENDPOINT  } from '../config/app';
+import { SOCKET_SERVER_ENDPOINT } from '../config/app';
+import { computeMin, computeMax, currentDateTime, getFullDate, computeTime, arithmeticMean, standardDeviation, countLostExchanges, getMode } from '../helpers/statisticComputeHelper';
 import { saveCurrent, saveToMysql, showListGroup, showTable, calcConfigModeCount, calcConfigItemsCount, stateWssOpen, setMessage } from '../store/actions/processActions';
 
 
@@ -59,27 +60,23 @@ class Page extends Component {
                 i++;
 
                 if (startDate === null) {
-                    startDate = this.currentDateTime();
+                    startDate = currentDateTime();
                 }
 
                 //Count to calc mode by equals
                 //Redux state
                 const modeCount = this.props.reduxState.configModeCount;
 
-                statistic.startDateTime = this.getFullDate(startDate);
+                statistic.startDateTime = getFullDate(startDate);
                 var start = new Date();
-                statistic.minExchange = this.computeMin(responseCollection);
-                statistic.maxExchange = this.computeMax(responseCollection);
-                statistic.arithmeticMean = this.arithmeticMean(responseCollection);
-                statistic.standardDeviation = this.standardDeviation(responseCollection);
-                statistic.countLostExchanges = this.countLostExchanges(responseCollection);
-                statistic.mode = this.getMode(responseCollection, modeCount).join(', ');
-                statistic.computeExecTime = this.computeTime(start);
-                statistic.computeAllExecTime = this.computeTime(startDate);
-
-                // this.setState({
-                //     statistic: statistic,
-                // });
+                statistic.minExchange = computeMin(responseCollection);
+                statistic.maxExchange = computeMax(responseCollection);
+                statistic.arithmeticMean = arithmeticMean(responseCollection);
+                statistic.standardDeviation = standardDeviation(responseCollection);
+                statistic.countLostExchanges = countLostExchanges(responseCollection);
+                statistic.mode = getMode(responseCollection, modeCount).join(', ');
+                statistic.computeExecTime = computeTime(start);
+                statistic.computeAllExecTime = computeTime(startDate);
 
                 this.props.saveCurrent(statistic); //to redux
             }
@@ -97,98 +94,6 @@ class Page extends Component {
         this.props.showTable(status);
     }
 
-
-    //--------------------------------------------------------------------------------
-    //Helpers
-    //--------------------------------------------------------------------------------
-    computeMin(array) {
-        let item = array.reduce((prev, curr) => prev.value < curr.value ? prev : curr);
-        return item.value;
-    }
-
-    computeMax(array) {
-        let item = array.reduce((prev, curr) => prev.value > curr.value ? prev : curr);
-        return item.value;
-    }
-
-    currentDateTime() {
-        return new Date();
-    }
-
-    //Set new Date()
-    getFullDate(date) {
-
-        return date.getDate() + "/"
-            + (date.getMonth() + 1) + "/"
-            + date.getFullYear() + " @ "
-            + date.getHours() + ":"
-            + date.getMinutes() + ":"
-            + date.getSeconds();
-
-    }
-
-    //Set start = Date()
-    computeTime(start) {
-        return (new Date() - start) / 1000; //seconds;
-    }
-
-    arithmeticMean(array) {
-        // return array.reduce((partial_sum, a) => partial_sum.value + a.value, 0) / array.length;
-        var sum = 0;
-        for (var i = 0; i < array.length; i++) {
-            sum += array[i].value;
-        }
-        return sum / array.length;
-    }
-
-    standardDeviation(array) {
-        var i,
-            j,
-            total = 0,
-            mean = 0,
-            diffSqredArr = [];
-
-        for (i = 0; i < array.length; i += 1) {
-            total += array[i].value;
-        }
-
-        mean = total / array.length;
-
-        for (j = 0; j < array.length; j += 1) {
-            diffSqredArr.push(Math.pow((array[j].value - mean), 2));
-        }
-        return (Math.sqrt(diffSqredArr.reduce(function (firstEl, nextEl) {
-            return firstEl + nextEl;
-        }) / array.length));
-
-
-    }
-
-    countLostExchanges(array) {
-        const emptyValues = ["", null];
-        return Object.values(array).reduce((r, c) => r + emptyValues.includes(c.value), 0);
-    }
-
-    getMode(array, copies) {
-        var reformattedArray = array.map(({ key, value }) => (value))
-        array = reformattedArray;
-        let map = new Map();
-        for (let elem of array) {
-            let counter = map.get(elem);
-            map.set(elem, counter ? counter + 1 : 1);
-        }
-        let res = [];
-        for (let [elem, counter] of map.entries())
-            if (counter >= copies)
-                res.push(elem);
-        return res;
-    }
-
-    //--------------------------------------------------------------------------------
-    //Helpers
-    //--------------------------------------------------------------------------------
-
-
     //Statistic click
     getStatistic() {
         console.log("Click statistic button!");
@@ -203,7 +108,7 @@ class Page extends Component {
 
             };
             this.ws.close();
-        }else{
+        } else {
             this.props.setMessage("Press button 'Start'");
         }
 
@@ -215,6 +120,7 @@ class Page extends Component {
         let listGroup;
         let table;
         let alert;
+
         if (this.props.reduxState.showListGroup) {
             listGroup = <ListGroup statisticInfo={this.props.reduxState.currentStatictic} modeCount={this.props.reduxState.configModeCount}></ListGroup>;
         }
@@ -223,7 +129,7 @@ class Page extends Component {
             table = <Table statisticInfo={this.props.reduxState.result}></Table>;
         }
 
-        if (this.props.reduxState.message.length >  0) {
+        if (this.props.reduxState.message.length > 0) {
             alert = <Alert message={this.props.reduxState.message}></Alert>;
         }
 
@@ -252,8 +158,6 @@ class Page extends Component {
     }
 }
 
-
-// export default Page;
 const mapStateToProps = (state) => ({
     reduxState: state.processRedus,
 });
